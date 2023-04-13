@@ -43,6 +43,22 @@ public class MainActivity extends AppCompatActivity {
     private Button buttonBlanck;
     private Button buttonIgual;
 
+    private String removeOperacao(String expressao, String operador) {
+        if (expressao.isEmpty()) {
+            return "0.";
+        }
+        String lastChar = expressao.substring(expressao.length() - 1);
+        if (lastChar.matches("\\d")) {
+            return expressao + operador;
+        } else {
+            return expressao.substring(0, expressao.length() - 1) + operador;
+        }
+    }
+
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
         buttonReset = findViewById(R.id.buttonResetID);
         buttonBlanck = findViewById(R.id.buttonBlanckID);
         buttonIgual = findViewById(R.id.buttonIgualID);
+
 
         buttonZero.setOnClickListener(v -> {
             textViewResultado.setText(textViewResultado.getText()+"0");
@@ -124,12 +141,12 @@ public class MainActivity extends AppCompatActivity {
         });
 
         buttonDivisao.setOnClickListener(v -> {
-            textViewResultado.setText(textViewResultado.getText()+"/");
+            textViewResultado.setText(removeOperacao((String) textViewResultado.getText(),"/"));
         });
 
 
         buttonIgual.setOnClickListener(v -> {
-            String expressao = textViewResultado.getText().toString();
+            String expressao = removeOperacao((String) textViewResultado.getText(),"");
             try {
                 Calculable avaliadorExpressao = new ExpressionBuilder(expressao).build();
                 String resultado = String.valueOf(avaliadorExpressao.calculate());
@@ -143,7 +160,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         buttonMultiplicacao.setOnClickListener(v -> {
-            textViewResultado.setText(textViewResultado.getText()+"*");
+            textViewResultado.setText(removeOperacao((String) textViewResultado.getText(),"*"));
         });
 
         buttonPorcento.setOnClickListener(v -> {
@@ -164,15 +181,18 @@ public class MainActivity extends AppCompatActivity {
         });
 
         buttonSoma.setOnClickListener(v -> {
-            textViewResultado.setText(textViewResultado.getText()+"+");
+            textViewResultado.setText(removeOperacao((String) textViewResultado.getText(),"+"));
+            //textViewResultado.setText(textViewResultado.getText()+"+");
         });
 
         buttonSubtracao.setOnClickListener(v -> {
-            textViewResultado.setText(textViewResultado.getText()+"-");
+            textViewResultado.setText(removeOperacao((String) textViewResultado.getText(),"-"));
+            //textViewResultado.setText(textViewResultado.getText()+"-");
         });
 
         buttonVirgula.setOnClickListener(v -> {
-            textViewResultado.setText(textViewResultado.getText()+".");
+            textViewResultado.setText(removeOperacao((String) textViewResultado.getText(),"."));
+            //textViewResultado.setText(textViewResultado.getText()+".");
         });
 
 
